@@ -9,14 +9,17 @@ class StartDelegate extends WatchUi.BehaviorDelegate {
         BehaviorDelegate.initialize();
     }
 
-
     function onSelect() as Boolean {
         _pushStationsList();
         return true;
     }
 
     private function _pushStationsList() as Void {
-        WatchUi.pushView(new StationsListView(), new StationsListDelegate(), WatchUi.SLIDE_BLINK);
+        var viewModel = new StationsListModel();
+        var menu = viewModel.createMenu();
+        var delegate = new StationsListDelegate(viewModel);
+        
+        WatchUi.pushView(menu, delegate, WatchUi.SLIDE_BLINK);
     }
 
 }
