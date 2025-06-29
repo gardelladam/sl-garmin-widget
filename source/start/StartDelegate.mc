@@ -15,9 +15,9 @@ class StartDelegate extends WatchUi.BehaviorDelegate {
     }
 
     private function _pushStationsList() as Void {
-        var viewModel = new StationsListModel();
-        var menu = viewModel.createMenu();
-        var delegate = new StationsListDelegate(viewModel);
+        var model = new StationsListModel();
+        var menu = model.createMenu();
+        var delegate = new StationsListDelegate(model);
         
         WatchUi.pushView(menu, delegate, WatchUi.SLIDE_BLINK);
     }
