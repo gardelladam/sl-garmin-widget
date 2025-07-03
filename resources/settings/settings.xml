@@ -1,0 +1,16 @@
+<settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+
+    <setting propertyKey="@Properties.Stations" title="@Strings.StationsTitle" >
+        <setting title="@Strings.StationsTitle" type="string">
+            <settingConfig id="activityType" type="alphaNumeric" />
+        </setting>
+        <setting title="@Strings.StationsTitle" type="string">
+            <settingConfig id="activityType2" type="alphaNumeric" />
+        </setting>
+    </setting>
+
+    <setting propertyKey="@Properties.MyTest" title="@Strings.StationsTitle" >
+        <settingConfig type="alphaNumeric" />
+    </setting>
+
+</settings>

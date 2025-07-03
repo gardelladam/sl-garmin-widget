@@ -7,9 +7,9 @@ class StationsListModel {
 
     function initialize() {
         _stations = [
-            new Station(:stationA, "Station A"),
-            new Station(:stationB, "Station B"),
-            new Station(:stationC, "Station C")
+            new Station(:stationA, 9325, "Sundbyberg", [new StationFilter("METRO", 2), new StationFilter("TRAIN", 1)]),
+            new Station(:stationB, 1079, "Odenplan -> jobb", [new StationFilter("METRO", 2)]),
+            new Station(:stationC, 9001, "TC -> jobb", [new StationFilter("METRO", 1)]),
         ];
     }
 
