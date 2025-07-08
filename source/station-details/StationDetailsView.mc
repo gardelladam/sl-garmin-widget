@@ -10,6 +10,10 @@ class StationDetailsView extends WatchUi.View {
         _model = model;
     }
 
+    function onShow() as Void {
+        _model.fetchDepartures();
+    }
+
     function onUpdate(dc as Dc) {
         var station = _model.getStation();
         dc.clear();
