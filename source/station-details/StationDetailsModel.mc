@@ -1,19 +1,52 @@
 using Toybox.System;
 import Toybox.Lang;
 import Toybox.Communications;
+using Toybox.WatchUi;
 
 class StationDetailsModel {
 
     private var _station as Station;
-    
+    private var _departures as Array<Departure> = [];
+    var isFetching as Boolean = true;
+    var cursor as Number = 0;
+
     function initialize(station as Station) {
         _station = station;
+    }
+
+    function increaseCursor() as Void {
+        if (_departures.size() == 0) {
+            cursor = 0;
+            return;
+        }
+
+        cursor += 1;
+        
+        if (cursor >= _departures.size()) {
+            cursor = 0;
+        }
+    }
+
+    function decreaseCursor() as Void {
+        if (_departures.size() == 0) {
+            cursor = 0;
+            return;
+        }
+
+        cursor -= 1;
+
+        if (cursor < 0) {
+            cursor = _departures.size() - 1;
+        }
     }
 
     function getStation() {
         return _station;
     }
-
+    function getDepartures() as Array<Departure> {
+        return _departures;
+    }
+  
     function fetchDepartures() as Void {
         var url = "https://transport.integration.sl.se/v1/sites/" + _station.siteId + "/departures";
 
@@ -33,7 +66,8 @@ class StationDetailsModel {
     }
 
     function onReceive(responseCode as Number, data as Dictionary?) as Void {
-      
+        isFetching = false;
+
         if (responseCode != 200 or data == null) {
             System.println("Failed to fetch data or no data received");
             return;
@@ -45,9 +79,10 @@ class StationDetailsModel {
             return;
         }
         
-        var filteredDepartures = filterDepartures(departures);
-       
-        System.println(filteredDepartures.toString());
+        _departures = filterDepartures(departures);
+
+        System.println("FILTERED: " + _departures);
+        WatchUi.requestUpdate();
     }
 
     function filterDepartures(departures as Array<Dictionary>) as Array<Departure> {

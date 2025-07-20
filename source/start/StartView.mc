@@ -3,8 +3,8 @@ import Toybox.WatchUi;
 
 class StartView extends WatchUi.View {
 
-    var icon;
-    var appName;
+    private var icon;
+    private var appName;
 
     function initialize() {
         View.initialize();
