@@ -2,53 +2,91 @@ using Toybox.Graphics;
 using Toybox.Math;
 import Toybox.Lang;
 
-function max(a, b) {
-    return (a > b) ? a : b;
-}
-
-function min(a, b) {
-    return (a < b) ? a : b;
-}
-
-
-
 class DepartureListComponent {
-    private var _departures as Array<Departure>;
-    private var _scrollOffset = 0;
-    private var _lineHeight = 40;
-    private var _visibleLines = 0;
+    private var _lineHeight = 25;
+    private var _model as StationDetailsModel;
 
-    function initialize(departures) {
-        _departures = departures;
-    }
-
-    function scroll(offset) {
-        _scrollOffset += offset;
-        _scrollOffset = max(0, _scrollOffset);
-        _scrollOffset = min(_scrollOffset, _departures.size() - _visibleLines);
-
+    function initialize(model as StationDetailsModel) {
+        _model = model;
     }
 
     function draw(dc as Graphics.Dc) {
         var width = dc.getWidth();
-        var height = dc.getHeight();
+        var startY = 70;
 
-        _visibleLines = height / _lineHeight;
+        var startIndex = _model.currentPage * _model.pageSize;
+        var endIndex = startIndex + _model.pageSize;
 
-        for (var i = 0; i < _visibleLines && (i + _scrollOffset) < _departures.size(); i += 1) {
-            var dep = _departures[i + _scrollOffset];
-            var y = 40 + i * _lineHeight;
+        var departures = _model.getDepartures();
 
-            // Draw icon placeholder (circle)
-            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-            dc.drawCircle(20, y + 12, 6);
+        if (endIndex > departures.size()) {
+            endIndex = departures.size();
+        }
 
-            // Draw destination
-            dc.drawText(40, y, Graphics.FONT_XTINY, dep.destination,Graphics.TEXT_JUSTIFY_CENTER);
+        var departuresToDraw = departures.slice(startIndex, endIndex);
 
-            // Draw time (right aligned)
-            var timeText = dep.display;
-            dc.drawText(width - 10, y, Graphics.FONT_XTINY, timeText, Graphics.TEXT_JUSTIFY_RIGHT);
+        for (var i = 0; i < departuresToDraw.size(); i += 1) {
+            if (_model.currentPage > 0) {
+                var arrowX = width / 2;
+                var arrowY = startY - _lineHeight / 2;
+
+                var arrowSize = 6;
+                dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+
+                dc.drawLine(
+                    arrowX - arrowSize,
+                    arrowY + arrowSize / 2,
+                    arrowX,
+                    arrowY - arrowSize / 2
+                );
+                dc.drawLine(
+                    arrowX + arrowSize,
+                    arrowY + arrowSize / 2,
+                    arrowX,
+                    arrowY - arrowSize / 2
+                );
+            }
+            var dep = departuresToDraw[i];
+            var y = startY + i * _lineHeight;
+
+            dc.drawText(
+                20,
+                y,
+                Graphics.FONT_XTINY,
+                dep.destination,
+                Graphics.TEXT_JUSTIFY_LEFT
+            );
+            dc.drawText(
+                width - 20,
+                y,
+                Graphics.FONT_XTINY,
+                dep.display,
+                Graphics.TEXT_JUSTIFY_RIGHT
+            );
+        }
+
+        var hasMore = endIndex < departures.size();
+        if (hasMore) {
+            var arrowX = width / 2;
+            var arrowY =
+                startY +
+                departuresToDraw.size() * _lineHeight +
+                _lineHeight / 2;
+
+            var arrowSize = 6;
+            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+            dc.drawLine(
+                arrowX - arrowSize,
+                arrowY - arrowSize / 2,
+                arrowX,
+                arrowY + arrowSize / 2
+            );
+            dc.drawLine(
+                arrowX + arrowSize,
+                arrowY - arrowSize / 2,
+                arrowX,
+                arrowY + arrowSize / 2
+            );
         }
     }
 }
