@@ -9,6 +9,8 @@ class StartView extends WatchUi.View {
         View.initialize();
         icon = WatchUi.loadResource(Rez.Drawables.IconWidget);
         appName = WatchUi.loadResource(Rez.Strings.AppName);
+
+        StationRepository.save(StationRepository.defaultStations()); // For now: add default stations to storage
     }
 
     function onUpdate(dc as Dc) {

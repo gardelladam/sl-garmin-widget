@@ -23,4 +23,9 @@ class StationDetailsDelegate extends WatchUi.BehaviorDelegate {
         WatchUi.requestUpdate();
         return true;
     }
+
+    function onMenu() {
+        System.println("Opening station menu");
+        return true;
+    }
 }

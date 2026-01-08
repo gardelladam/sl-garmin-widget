@@ -8,4 +8,15 @@ class StationFilter {
         self.transportMode = transportMode;
         self.directionCode = directionCode;
     }
+
+    function toDict() as Dictionary {
+        return {
+            "mode" => transportMode,
+            "dir" => directionCode,
+        };
+    }
+
+    static function fromDict(d as Dictionary) as StationFilter {
+        return new StationFilter(d["mode"], d["dir"]);
+    }
 }

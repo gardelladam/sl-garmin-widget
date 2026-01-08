@@ -1,5 +1,6 @@
 using Toybox.WatchUi;
 import Toybox.Lang;
+using Toybox.Application.Storage;
 
 const _symbols = [
     :symbol0,
@@ -23,19 +24,7 @@ class StationsListModel {
     private var _stations as Array<Station>;
 
     function initialize() {
-        _stations = [
-            new Station(9325, "Sundbyberg", [
-                new StationFilter("METRO", 2),
-                new StationFilter("TRAIN", 1),
-            ]),
-            new Station(1079, "Odenplan -> jobb", [
-                new StationFilter("METRO", 2),
-            ]),
-            new Station(9001, "TC -> jobb", [
-                new StationFilter("METRO", 1),
-                new StationFilter("METRO", 2),
-            ]),
-        ];
+        _stations = StationRepository.load();
     }
 
     function createMenu() as WatchUi.Menu {
