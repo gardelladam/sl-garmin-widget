@@ -30,12 +30,15 @@ class StationDetailsView extends WatchUi.View {
             Graphics.TEXT_JUSTIFY_CENTER
         );
 
-        if (!departures.size().equals(0)) {
-            _listComponent = new DepartureListComponent(_model);
-        }
-
-        if (_listComponent != null) {
-            _listComponent.draw(dc);
+        if (_model.isError) {
+            dc.drawText(
+                dc.getWidth() / 2,
+                dc.getHeight() / 2 - 10,
+                Graphics.FONT_TINY,
+                "Något gick fel",
+                Graphics.TEXT_JUSTIFY_CENTER
+            );
+            return;
         }
 
         if (_model.isFetching) {
@@ -47,6 +50,11 @@ class StationDetailsView extends WatchUi.View {
                 Graphics.TEXT_JUSTIFY_CENTER
             );
             return;
+        }
+
+        if (!departures.size().equals(0)) {
+            _listComponent = new DepartureListComponent(_model);
+            _listComponent.draw(dc);
         }
     }
 }

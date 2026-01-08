@@ -7,6 +7,12 @@ class StationDetailsDelegate extends WatchUi.BehaviorDelegate {
         _model = model;
     }
 
+    function onSelect() {
+        _model.fetchDepartures();
+        WatchUi.requestUpdate();
+        return true;
+    }
+
     function onNextPage() {
         _model.nextPage();
         WatchUi.requestUpdate();

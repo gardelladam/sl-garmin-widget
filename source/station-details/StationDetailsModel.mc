@@ -9,6 +9,7 @@ class StationDetailsModel {
     private var _station as Station;
     private var _departures as Array<Departure> = [];
     var isFetching as Boolean = true;
+    var isError as Boolean = false;
 
     var pageSize as Number = 4;
     var currentPage as Number = 0;
@@ -47,6 +48,8 @@ class StationDetailsModel {
     }
 
     function fetchDepartures() as Void {
+        isFetching = true;
+        isError = false;
         var url =
             "https://transport.integration.sl.se/v1/sites/" +
             _station.siteId +
@@ -64,6 +67,7 @@ class StationDetailsModel {
             },
             :responseType => Communications.HTTP_RESPONSE_CONTENT_TYPE_JSON,
         };
+
         Communications.makeWebRequest(url, params, options, method(:onReceive));
     }
 
@@ -72,6 +76,8 @@ class StationDetailsModel {
 
         if (responseCode != 200 or data == null) {
             System.println("Failed to fetch data or no data received");
+            isError = true;
+            WatchUi.requestUpdate();
             return;
         }
         var departures = data["departures"];
