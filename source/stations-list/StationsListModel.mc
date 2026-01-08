@@ -22,6 +22,7 @@ const _symbols = [
 ];
 class StationsListModel {
     private var _stations as Array<Station>;
+    var newOption = :newOption;
 
     function initialize() {
         _stations = StationRepository.load();
@@ -33,6 +34,7 @@ class StationsListModel {
             var station = _stations[i];
             menu.addItem(station.name, _symbols[i]);
         }
+        menu.addItem("Lägg till", newOption);
         return menu;
     }
 
