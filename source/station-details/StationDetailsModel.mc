@@ -52,7 +52,7 @@ class StationDetailsModel {
         isError = false;
         var url =
             "https://transport.integration.sl.se/v1/sites/" +
-            _station.siteId +
+            _station.id +
             "/departures";
 
         var params = {

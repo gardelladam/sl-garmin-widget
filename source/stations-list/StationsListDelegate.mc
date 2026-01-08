@@ -13,10 +13,7 @@ class StationsListDelegate extends WatchUi.MenuInputDelegate {
 
     function onMenuItem(item as Symbol) as Void {
         var station = _model.getStationById(item);
-        if (station == null) {
-            System.println("Station not found: " + item);
-            return;
-        }
+
         _pushStationDetails(station);
     }
 
